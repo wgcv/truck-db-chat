@@ -2,6 +2,8 @@
 
 A truck database chat application with backend API, AI agent, and frontend.
 
+![Fleet Assistant](img/fleet-assistant.png)
+
 ## Quick start
 
 Using docker
