@@ -1,0 +1,41 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - frontend
+      - backend
+      - ai-agent
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80" # Expose for local dev (frontend nginx listens on 80)
+    # No host port - accessed via Caddy only
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Expose for local dev (e.g. npm run dev proxying to localhost:3000)
+    environment:
+      - DATABASE_URL=/app/data/db.sqlite
+    volumes:
+      - ./data/backend:/app/data
+
+  ai-agent:
+    build:
+      context: ./ai-agent
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000" # Expose for local dev (e.g. npm run dev proxying to localhost:8000)
+    env_file:
+      - ./ai-agent/.env
+    environment:
+      - BACKEND_URL=http://backend:3000
