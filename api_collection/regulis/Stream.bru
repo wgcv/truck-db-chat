@@ -1,0 +1,20 @@
+meta {
+  name: Stream
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://127.0.0.1:8000/stream
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "message": "Estoy botado en 62 st west, Guayaquil,Ecuador",
+    "language":"es",
+    "vehicle_id": "123-o1",
+    "thread_id": "59cad8ac-0209-4d64-a9a9-8933ae4bd92"
+  }
+}
